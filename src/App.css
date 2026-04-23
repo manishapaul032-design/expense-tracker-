@@ -1,0 +1,92 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+form input,
+form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 150px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Focus Effect */
+form input:focus,
+form select:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+/* Button */
+form button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button Hover */
+form button:hover {
+  background-color: #45a049;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+/* Table Header */
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Table Cells */
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Row Hover */
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Empty State */
+td[colspan] {
+  color: #888;
+  font-style: italic;
+}
