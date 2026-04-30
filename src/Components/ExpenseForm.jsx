@@ -2,22 +2,23 @@
 import React,{useState} from 'react'
 
 const ExpenseForm = ({addExpense}) => {
-    const [formData, setFormData] = useState();
+    const [formData, setFormData] = useState({});
 
 
 
-   const handleChange =(e)=>{
-      setFormData(e.target.value);
+  const handleChange =(e)=>{
+      setFormData({...formData, [e.target.name]: e.target.value});
   }
   const onClickHandler =(e)=>{
         e.preventDefault();
+        addExpense(formData)
         const expense ={
           type: "",
           category: "",
           amount: "",
           date: ""
         }
-        addExpense(expense)
+        
        
   }
 
@@ -32,7 +33,7 @@ const ExpenseForm = ({addExpense}) => {
         <option value="expense">Expense</option>
         <option value="income">Income</option>
       </select><br></br>
-
+``
       {/* Category Dropdown */}
       <select name="category" onChange={handleChange} >
         <option value="food">Food</option>

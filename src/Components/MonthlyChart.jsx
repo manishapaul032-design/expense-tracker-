@@ -1,46 +1,96 @@
 import React from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from "recharts";
 
- export const MonthlyChart = ({ expenses }) => {
+export const MonthlyChart = ({ expenses }) => {
 
-  const monthlyDataObj = {};
+  // 🟡 1. Filter last 30 days
+  const today = new Date();
+  const last30Days = new Date();
+  last30Days.setDate(today.getDate() - 30);
 
-  expenses.forEach(item => {
-    const month = new Date(item.date).toLocaleString("default", { month: "short" });
-
-    if (!monthlyDataObj[month]) {
-      monthlyDataObj[month] = 0;
-    }
-
-    monthlyDataObj[month] += Number(item.amount);
+  const filteredData = expenses.filter(item => {
+    const itemDate = new Date(item.date);
+    return itemDate >= last30Days && itemDate <= today;
   });
 
-  const monthlyData = Object.keys(monthlyDataObj).map(key => ({
+  // 🟡 2. Group by date → separate income & expense
+  const barDataObj = {};
+
+  filteredData.forEach(item => {
+    const day = new Date(item.date).toLocaleDateString();
+
+    if (!barDataObj[day]) {
+      barDataObj[day] = { name: day, income: 0, expense: 0 };
+    }
+
+    if (item.type === "income") {
+      barDataObj[day].income += Number(item.amount);
+    } else {
+      barDataObj[day].expense += Number(item.amount);
+    }
+  });
+
+  const barData = Object.values(barDataObj);
+
+  // 🟡 3. Pie chart → only expenses grouped by category
+  const pieDataObj = {};
+
+  filteredData.forEach(item => {
+    if (item.type === "expense") {
+      if (!pieDataObj[item.category]) {
+        pieDataObj[item.category] = 0;
+      }
+      pieDataObj[item.category] += Number(item.amount);
+    }
+  });
+
+  const pieData = Object.keys(pieDataObj).map(key => ({
     name: key,
-    amount: monthlyDataObj[key]
+    value: pieDataObj[key]
   }));
 
-  const COLORS = ["red", "green", "blue", "orange", "purple"];
+  const COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50", "#9966FF"];
 
   return (
     <div>
-      <h3>Monthly Chart</h3>
+      <h3>Last 30 Days Overview</h3>
 
-      {/* 🔵 Bar Chart */}
-      <BarChart width={500} height={300} data={monthlyData}>
+      {/* 🔵 Bar Chart (Income vs Expense) */}
+      <BarChart width={600} height={300} data={barData}>
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Bar dataKey="amount" fill="blue" />
+        <Legend />
+        <Bar dataKey="income" fill="green" />
+        <Bar dataKey="expense" fill="red" />
       </BarChart>
 
-      {/* 🟣 Pie Chart */}
+      {/* 🟣 Pie Chart (Expenses Only) */}
       <PieChart width={400} height={300}>
-        <Pie data={monthlyData} dataKey="amount" outerRadius={100} label>
-          {monthlyData.map((entry, index) => (
-            <Cell key={index} fill={COLORS[index % COLORS.length]} />
+        <Pie
+          data={pieData}
+          dataKey="value"
+          outerRadius={100}
+          label
+        >
+          {pieData.map((entry, index) => (
+            <Cell
+              key={index}
+              fill={COLORS[index % COLORS.length]}
+            />
           ))}
         </Pie>
+        <Legend />
       </PieChart>
     </div>
   );

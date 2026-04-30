@@ -19,7 +19,7 @@ const App = () => {
       <ExpenseForm addExpense={addExpense}/>
      <ExpenseTable expenses={expenses}/>
      <MonthlyChart expenses={expenses} />
-     <YearlyChart expenses={expenses} />
+     {/* <YearlyChart expenses={expenses} /> */}
     
     </>
      

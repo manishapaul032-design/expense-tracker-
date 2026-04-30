@@ -1,6 +1,8 @@
 import React from 'react'
 
 const ExpenseTable = ({expenses}) => {
+  console.log(expenses);
+  
   return (
     <div>
        <table border="1" cellPadding="10" width="100%">
