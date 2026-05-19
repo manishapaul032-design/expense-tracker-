@@ -1,61 +1,87 @@
+import React, { useState } from "react";
 
-import React,{useState} from 'react'
+const ExpenseForm = ({ addExpense }) => {
+  const [formData, setFormData] = useState({
+    type: "",
+    category: "",
+    amount: "",
+    date: "",
+  });
 
-const ExpenseForm = ({addExpense}) => {
-    const [formData, setFormData] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
 
+  const onClickHandler = (e) => {
+    e.preventDefault();
 
-  const handleChange =(e)=>{
-      setFormData({...formData, [e.target.name]: e.target.value});
-  }
-  const onClickHandler =(e)=>{
-        e.preventDefault();
-        addExpense(formData)
-        const expense ={
-          type: "",
-          category: "",
-          amount: "",
-          date: ""
-        }
-        
-       
-  }
+
+    const oldExpenses =
+      JSON.parse(localStorage.getItem("expenses")) ;
+
+  
+    const updatedExpenses = [...oldExpenses, formData];
+
+
+    localStorage.setItem(
+      "expenses",
+      JSON.stringify(updatedExpenses)
+    );
+
+
+    addExpense(formData);
+
+
+    setFormData({
+      type: "",
+      category: "",
+      amount: "",
+      date: "",
+    });
+  };
 
   return (
-    <div className='container'>
+    <div className="container">
       <h1>Expense Tracker</h1>
 
-       <form >
+      <form onSubmit={onClickHandler}>
+        
+     
+        <select name="type" value={formData.type} onChange={handleChange}>
+          <option value="">Select Type</option>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+
+        <br />
+
       
-      {/* Type Dropdown */}
-      <select name="type" onChange={handleChange} >
-        <option value="expense">Expense</option>
-        <option value="income">Income</option>
-      </select><br></br>
-``
-      {/* Category Dropdown */}
-      <select name="category" onChange={handleChange} >
-        <option value="food">Food</option>
-        <option value="travel">Travel</option>
-        <option value="shopping">Shopping</option>
-        <option value="bills">Bills</option>
-        <option value="salary">Salary</option>
-        <option value="other">Other</option>
-      </select><br></br>
+        <select name="category" value={formData.category} onChange={handleChange}>
+          <option value="">Select Category</option>
+          <option value="food">Food</option>
+          <option value="travel">Travel</option>
+          <option value="shopping">Shopping</option>
+          <option value="bills">Bills</option>
+          <option value="salary">Salary</option>
+          <option value="other">Other</option>
+        </select>
 
- 
+        <br />
 
-   
-      <input type="number" name="amount" placeholder="Enter amount" onChange={handleChange} /><br></br>
+        <input type="number" name="amount" placeholder="Enter amount" value={formData.amount} onChange={handleChange }/>
 
-      <input type="date" name="date"  onChange={handleChange} /><br></br>
+        <br />
 
-      <button type="submit" onClick={onClickHandler}>Add Transaction</button>
-    </form>
+        <input type="date" name="date" value={formData.date}  onChange={handleChange}/>
+
+        <br />
+
+        <button type="submit">Add Transaction</button>
+      </form>
     </div>
-  )
- 
-}
+  );
+};
 
-export default ExpenseForm
+export default ExpenseForm;

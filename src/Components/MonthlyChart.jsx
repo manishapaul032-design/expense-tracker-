@@ -65,7 +65,7 @@ export const MonthlyChart = ({ expenses }) => {
     <div>
       <h3>Last 30 Days Overview</h3>
 
-      {/* 🔵 Bar Chart (Income vs Expense) */}
+  
       <BarChart width={600} height={300} data={barData}>
         <XAxis dataKey="name" />
         <YAxis />
@@ -75,7 +75,7 @@ export const MonthlyChart = ({ expenses }) => {
         <Bar dataKey="expense" fill="red" />
       </BarChart>
 
-      {/* 🟣 Pie Chart (Expenses Only) */}
+     
       <PieChart width={400} height={300}>
         <Pie
           data={pieData}

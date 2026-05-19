@@ -1,14 +1,22 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import ExpenseForm from './Components/ExpenseForm'
 import ExpenseTable from './Components/ExpenseTable'
-import {MonthlyChart} from './Components/MonthlyChart';
-import {YearlyChart} from './Components/YearlyChart';
+import MonthlyChart from './Components/MonthlyChart'
+
+
 
 import "./App.css";
 
 
 const App = () => {
   const [expenses, setExpenses] = useState([]);
+   useEffect(() => {
+    localStorage.setItem(
+      "expenses",
+      JSON.stringify(expenses)
+    );
+  }, [expenses]);
+
 
   const addExpense = (expense) => {
     setExpenses([...expenses, expense]);
@@ -18,7 +26,7 @@ const App = () => {
     <>
       <ExpenseForm addExpense={addExpense}/>
      <ExpenseTable expenses={expenses}/>
-     <MonthlyChart expenses={expenses} />
+    <MonthlyChart expenses={expenses} />
      {/* <YearlyChart expenses={expenses} /> */}
     
     </>

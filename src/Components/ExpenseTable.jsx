@@ -1,34 +1,33 @@
-import React from 'react'
+import React from "react";
 
-const ExpenseTable = ({expenses}) => {
-  console.log(expenses);
-  
+const ExpenseTable = ({ expenses }) => {
   return (
     <div>
-       <table border="1" cellPadding="10" width="100%">
-      <thead>
-        <tr>
-         
-          <th>Type</th>
-          <th>Category</th>
-          <th>Amount (₹)</th>
-           <th>Date</th>
-        </tr>
-      </thead>
-        <tbody>
-        {expenses.map((expense, index) => (
-          <tr>
-           
-            <td>{expense.type}</td>
-             <td>{expense.category}</td>
-            <td>{expense.amount}</td>
-            <td>{expense.date}</td>
-          </tr>
-        ))}
-      </tbody>
-</table>
-    </div>
-  )
-}
+      <h2>Transaction History</h2>
 
-export default ExpenseTable
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {expenses.map((item, index) => (
+            <tr key={index}>
+              <td>{item.type}</td>
+              <td>{item.category}</td>
+              <td>₹ {item.amount}</td>
+              <td>{item.date}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ExpenseTable;
